@@ -1,0 +1,4 @@
+[phases]
+install = "composer install --optimize-autoloader --no-dev && npm ci"
+build = "npm run prod && php artisan config:cache && php artisan route:cache && php artisan view:cache"
+start = "php artisan migrate --force && php artisan db:seed --force"
