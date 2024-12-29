@@ -1,9 +1,12 @@
+[setup]
+setupCommand = "mkdir -p /var/log/nginx /var/cache/nginx && composer install --prefer-dist --no-interaction --optimize-autoloader --no-dev && npm ci --cache /path/to/npm/cache"
+
 [install]
-installCommand = "composer install --optimize-autoloader --no-dev && npm ci"
+installCommand = "composer install --prefer-dist --no-interaction --optimize-autoloader --no-dev && npm ci"
 
 [build]
 builder = "nixpacks"
-buildCommand = "npm run prod && php artisan config:cache && php artisan route:cache && php artisan view:cache"
+buildCommand = "npm run prod && php artisan config:cache route:cache view:cache event:cache"
 
 [deploy]
-startCommand = "php artisan migrate --force && php artisan db:seed --force"
+startCommand = "php artisan migrate --force && php artisan db:seed --force || true"
