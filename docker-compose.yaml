@@ -1,0 +1,29 @@
+networks:
+  bloodyknee-network:
+    name: bloodyknee-network
+    driver: bridge
+
+volumes:
+  bloodyknee-db:
+    name: bloodyknee-db
+
+services:
+  bloodyknee-db:
+    restart: unless-stopped
+    image: postgres:14
+    container_name: bloodyknee-db
+    volumes:
+      - bloodyknee-db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: bloodyknee
+    ports:
+      - "5432:5432"
+    networks:
+      - bloodyknee-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
